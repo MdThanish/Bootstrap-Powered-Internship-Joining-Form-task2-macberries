@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-md-12 d-flex justify-content-center align-items-center">
         <img src="https://media2.giphy.com/media/RKYGoNOFHOOluVO7lp/200.webp?cid=790b7611hvek5s60opsgih1etg01nnc8w9vrqpe7dsjqwjpe&ep=v1_gifs_search&rid=200.webp&ct=g" alt="GIF" class="img-fluid mb-4 glow">
-      </div>      
+      </div>
       <div class="col-md-12">
         <div class="card bg-secondary" style="max-width: 800px; margin: 0 auto;">
           <div class="card-body">
@@ -67,7 +67,7 @@
               </tr>
               <tr>
                 <td><label for="dob" class="form-label text-white">Date of Birth:</label></td>
-                <td><input type="date" id="dob" name="dob" class="form-control" required><span id="dob-error" style="color: red;"></span></td>
+                <td><input type="date" id="dob" name="dob" class="form-control" max="<?php echo date('Y-m-d');?>" onchange="validateDOB()" required><span id="dob-error" style="color: red;"></span></td>
               </tr>
               <tr>
                 <td><label for="age" class="form-label text-white">Age:</label></td>
@@ -114,19 +114,29 @@
     function validateDOB() {
       const dobInput = document.getElementById('dob').value;
       const dob = new Date(dobInput);
-      const currentYear = new Date().getFullYear();
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth();
+      const currentDay = currentDate.getDate();
 
-      if (dob.getFullYear() > currentYear || dobInput === "") {
+      if (dob > currentDate) {
         document.getElementById('dob-error').innerText = "Please provide a valid date of birth";
         document.getElementById('dob').setCustomValidity("Please provide a valid date of birth");
+        document.getElementById('age').value = ""; // Clear age input if DOB is invalid
+        document.getElementById('age-error').innerText = ""; // Clear age error message
       } else {
         document.getElementById('dob-error').innerText = "";
         document.getElementById('dob').setCustomValidity("");
+
+        // Calculate Age
+        let age = currentYear - dob.getFullYear();
+        if (currentMonth < dob.getMonth() || (currentMonth === dob.getMonth() && currentDay < dob.getDate())) {
+          age--;
+        }
+        document.getElementById('age').value = age;
+        document.getElementById('age-error').innerText = ""; // Clear age error message
       }
     }
-
-    // Add an event listener to trigger validation on input change
-    document.getElementById('dob').addEventListener('change', validateDOB);
 
     function validatePhoneNumber(input) {
       const phoneNumber = input.value;
@@ -170,7 +180,7 @@
 
   </script>
 
-  
+
 
   <div class="container">
     <div class="row">
