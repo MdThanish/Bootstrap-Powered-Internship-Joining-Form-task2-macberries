@@ -6,7 +6,7 @@
 
 The aim of this project was to successfully complete the Internship Joining Form task2 assigned by MacBerries. The goal was to create a user-friendly and functional form that allows individuals to apply for the internship program seamlessly.
 
-![Internship Joining Form]()
+![Internship Joining Form](taskno02.gif)
 
 ## Technologies Used
 
